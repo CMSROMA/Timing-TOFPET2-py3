@@ -1,0 +1,91 @@
+#Configuration
+CONFIG_INI_TEMPLATE /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2/data/config_template.ini
+# This bias calibration file should be created only once when all ASICS are connected
+HV_DAC /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2/data/bias_calibration.tsv
+SIPM_BIAS /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2/data/bias_settings_template.tsv
+DISC_SETTINGS /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2/data/disc_settings_template.tsv
+CHANNEL_MAP /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2/data/map_channel.tsv
+TRIGGER_MAP /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2/data/map_trigger.tsv
+LSB_T1 60
+LSB_T2 60
+MIN_INTG_TIME 34
+MAX_INTG_TIME 34
+# MIN_INTG_TIME/MAX_INTG_TIME 34 = (34 x 4 - 78) x 5 ns = 290ns
+
+#Calibration
+RUN_CALIB 0
+CALIB_DIR /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/data/calib/test_2022_09_26
+#CALIB_DIR /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2/data/calib/1bar_4arrays_5degreeSet_2021_06_30
+DISC_CALIB disc_calibration.tsv
+TDC_CALIB tdc_calibration.tsv
+QDC_CALIB qdc_calibration.tsv
+# Notes: 
+# use a different directory (different CALIB_DIR) for each calibration set
+# xxx_CALIB names must end with ".tsv"
+# if RUN_CALIB=1 and at least one of the xxx_CALIB already exist, the script stops (in order not to cancel an existing calibration file).
+# if RUN_CALIB=0 and at least one of the xxx_CALIB does not exist, the script stops (since there is no valid calibration)
+# if one of the two conditions above is passed, then:
+# if RUN_CALIB=1 (since none of the xxx_CALIB exists) xxx_CALIB are created [takes ~30-40 min.] and used to run daq
+# if RUN_CALIB=0 (since all the xxx_CALIB already exists) existing xxx_CALIB are used to run daq
+# - QCD_CALIB is currently not used to reconstruct energy values in qdc mode (simply, energy = raw counts)
+
+#Run settings
+#DAQSCRIPT my_acquire_sipm_data PHYS
+DAQSCRIPT acquire_pedestal_data PED
+#DAQSCRIPT my_acquire_sipm_data PHYS
+CONVERTSINGLESCRIPT convert_raw_to_singles
+CONVERTCOINCIDENCESCRIPT analysis/find_coincidences.py
+#CONVERTCOINCIDENCESCRIPT convert_raw_to_coincidence
+TEMPERATUREFILE /home/cmsdaq/Workspace/TemperatureMonitor/temperature_tmp.txt
+MODE qdc
+TIME 0.3
+#TIME 1
+OUTPUT_DIR /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/data/test/
+#OUTPUT_DIR output/Pedestal
+OUTPUT_LABEL Run005161_2022-01-05-16-02-07_ARRAY070481_IARR1_POS10_X73.0_Y139.4_Z23.0_PREIRR-THSCAN
+#OUTPUT_LABEL PedestalTest13_2ch_100000delay
+
+#Channels
+OVERWRITE_OV_REF 8
+OVERWRITE_OV 8
+#If OVERWRITE_OV -1 (same for OVERWRITE_OV_REF), use the OV values in the table below. If OVERWRITE_OV > 0 set all channels to this OV value.
+#REF are always CH0 and CH1 (reference bar)
+## TO BE CHECKED: position of pixels and NHV ##
+#  ID	NHV    VBR    OV    NCHIP    NCH    VTH_1    VTH_2    VTH_E    SIPM_CODE    SIPM_TYPE     X    Y    Z    CRYSTAL	
+CH 0    7     50.60  7.00  0         3      15       15       15       11040        S13360-3025CS -1   -1   -1    LYSO_bar
+CH 1    7     50.60  7.00  0         27     15       15       15       11041        S13360-3025CS -1   -1   -1    LYSO_bar
+CH 2    2     51.40  7.00  4         11     15       15       15       xx           xx            -1   -1   -1    LYSO_bar0
+CH 3    2     51.40  7.00  4         13     15       15       15       xx           xx            -1   -1   -1    LYSO_bar1
+CH 4    2     51.40  7.00  4         15     15       15       15       xx           xx            -1   -1   -1    LYSO_bar2
+CH 5    2     51.40  7.00  4         4      15       15       15       xx           xx            -1   -1   -1    LYSO_bar3
+CH 6    2     51.40  7.00  4         10     15       15       15       xx           xx            -1   -1   -1    LYSO_bar4
+CH 7    2     51.40  7.00  4         1      15       15       15       xx           xx            -1   -1   -1    LYSO_bar5
+CH 8    2     51.40  7.00  4         14     15       15       15       xx           xx            -1   -1   -1    LYSO_bar6
+CH 9    2     51.40  7.00  4         12     15       15       15       xx           xx            -1   -1   -1    LYSO_bar7
+CH 10   2     51.40  7.00  4         20     15       15       15       xx           xx            -1   -1   -1    LYSO_bar8
+CH 11   2     51.40  7.00  4         22     15       15       15       xx           xx            -1   -1   -1    LYSO_bar9
+CH 12   2     51.40  7.00  4         18     15       15       15       xx           xx            -1   -1   -1    LYSO_bar10
+CH 13   2     51.40  7.00  4         19     15       15       15       xx           xx            -1   -1   -1    LYSO_bar11
+CH 14   2     51.40  7.00  4         24     15       15       15       xx           xx            -1   -1   -1    LYSO_bar12
+CH 15   2     51.40  7.00  4         28     15       15       15       xx           xx            -1   -1   -1    LYSO_bar13
+CH 16   2     51.40  7.00  4         30     15       15       15       xx           xx            -1   -1   -1    LYSO_bar14
+CH 17   2     51.40  7.00  4         32     15       15       15       xx           xx            -1   -1   -1    LYSO_bar15
+CH 18   3     51.40  7.00  4         38     15       15       15       xx           xx            -1   -1   -1    LYSO_bar0
+CH 19   3     51.40  7.00  4         62     15       15       15       xx           xx            -1   -1   -1    LYSO_bar1
+CH 20   3     51.40  7.00  4         61     15       15       15       xx           xx            -1   -1   -1    LYSO_bar2
+CH 21   3     51.40  7.00  4         50     15       15       15       xx           xx            -1   -1   -1    LYSO_bar3
+CH 22   3     51.40  7.00  4         63     15       15       15       xx           xx            -1   -1   -1    LYSO_bar4
+CH 23   3     51.40  7.00  4         55     15       15       15       xx           xx            -1   -1   -1    LYSO_bar5
+CH 24   3     51.40  7.00  4         53     15       15       15       xx           xx            -1   -1   -1    LYSO_bar6
+CH 25   3     51.40  7.00  4         51     15       15       15       xx           xx            -1   -1   -1    LYSO_bar7
+CH 26   3     51.40  7.00  4         43     15       15       15       xx           xx            -1   -1   -1    LYSO_bar8
+CH 27   3     51.40  7.00  4         44     15       15       15       xx           xx            -1   -1   -1    LYSO_bar9
+CH 28   3     51.40  7.00  4         45     15       15       15       xx           xx            -1   -1   -1    LYSO_bar10
+CH 29   3     51.40  7.00  4         48     15       15       15       xx           xx            -1   -1   -1    LYSO_bar11
+CH 30   3     51.40  7.00  4         40     15       15       15       xx           xx            -1   -1   -1    LYSO_bar12
+CH 31   3     51.40  7.00  4         39     15       15       15       xx           xx            -1   -1   -1    LYSO_bar13
+CH 32   3     51.40  7.00  4         35     15       15       15       xx           xx            -1   -1   -1    LYSO_bar14
+CH 33   3     51.40  7.00  4         33     15       15       15       xx           xx            -1   -1   -1    LYSO_bar15
+# Note on VBR: Different CHs can be connected to the same NHV. If different values of VBR are provided only the first one is set for a given NHV. 
+#Note: Source position -
+
