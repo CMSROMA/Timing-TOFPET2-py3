@@ -1,0 +1,171 @@
+
+Grbl 0.8c ['$' for help]
+['$H'|'$X' to unlock]
+error: Unsupported statement
+ok
+ok
+$0=133.000 (x, step/mm)
+$1=133.000 (y, step/mm)
+$2=755.906 (z, step/mm)
+$3=10 (step pulse, usec)
+$4=500.000 (default feed, mm/min)
+$5=500.000 (default seek, mm/min)
+$6=28 (step port invert mask, int:00011100)
+$7=25 (step idle delay, msec)
+$8=50.000 (acceleration, mm/sec^2)
+$9=0.050 (junction deviation, mm)
+$10=0.100 (arc, mm/segment)
+$11=25 (n-arc correction, int)
+$12=3 (n-decimals, int)
+$13=0 (report inches, bool)
+$14=1 (auto start, bool)
+$15=0 (invert step enable, bool)
+$16=1 (hard limits, bool)
+$17=1 (homing cycle, bool)
+$18=0 (homing dir invert mask, int:00000000)
+$19=500.000 (homing feed, mm/min)
+$20=250.000 (homing seek, mm/min)
+$21=100 (homing debounce, msec)
+$22=1.000 (homing pull-off, mm)
+ok
+
+Grbl 0.8c ['$' for help]
+['$H'|'$X' to unlock]
+[Caution: Unlocked]
+ok
+$0=133.000 (x, step/mm)
+$1=133.000 (y, step/mm)
+$2=755.906 (z, step/mm)
+$3=10 (step pulse, usec)
+$4=500.000 (default feed, mm/min)
+$5=500.000 (default seek, mm/min)
+$6=28 (step port invert mask, int:00011100)
+$7=25 (step idle delay, msec)
+$8=50.000 (acceleration, mm/sec^2)
+$9=0.050 (junction deviation, mm)
+$10=0.100 (arc, mm/segment)
+$11=25 (n-arc correction, int)
+$12=3 (n-decimals, int)
+$13=0 (report inches, bool)
+$14=1 (auto start, bool)
+$15=0 (invert step enable, bool)
+$16=1 (hard limits, bool)
+$17=1 (homing cycle, bool)
+$18=0 (homing dir invert mask, int:00000000)
+$19=500.000 (homing feed, mm/min)
+$20=250.000 (homing seek, mm/min)
+$21=100 (homing debounce, msec)
+$22=1.000 (homing pull-off, mm)
+ok
+<Idle,MPos:0.000,0.000,0.000,WPos:0.000,0.000,0.000>
+ALARM: Abort during cycle. MPos?
+ok
+
+Grbl 0.8c ['$' for help]
+['$H'|'$X' to unlock]
+
+Grbl 0.8c ['$' for help]
+['$H'|'$X' to unlock]
+$$ (view Grbl settings)
+$# (view # parameters)
+$G (view parser state)
+$N (view startup blocks)
+$x=value (save Grbl setting)
+$Nx=line (save startup block)
+$C (check gcode mode)
+$X (kill alarm lock)
+$H (run homing cycle)
+~ (cycle start)
+! (feed hold)
+? (current status)
+ctrl-x (reset Grbl)
+ok
+$0=133.000 (x, step/mm)
+$1=133.000 (y, step/mm)
+$2=755.906 (z, step/mm)
+$3=10 (step pulse, usec)
+$4=500.000 (default feed, mm/min)
+$5=500.000 (default seek, mm/min)
+$6=28 (step port invert mask, int:00011100)
+$7=25 (step idle delay, msec)
+$8=50.000 (acceleration, mm/sec^2)
+$9=0.050 (junction deviation, mm)
+$10=0.100 (arc, mm/segment)
+$11=25 (n-arc correction, int)
+$12=3 (n-decimals, int)
+$13=0 (report inches, bool)
+$14=1 (auto start, bool)
+$15=0 (invert step enable, bool)
+$16=1 (hard limits, bool)
+$17=1 (homing cycle, bool)
+$18=0 (homing dir invert mask, int:00000000)
+$19=500.000 (homing feed, mm/min)
+$20=250.000 (homing seek, mm/min)
+$21=100 (homing debounce, msec)
+$22=1.000 (homing pull-off, mm)
+ok
+ok
+
+Grbl 0.8c ['$' for help]
+
+Grbl 0.8c ['$' for help]
+
+Grbl 0.8c ['$' for help]
+
+Grbl 0.8c ['$' for help]
+
+Grbl 0.8c ['$' for help]
+
+Grbl 0.8c ['$' for help]
+
+Grbl 0.8c ['$' for help]
+['$H'|'$X' to unlock]
+error: Alarm lock
+ok
+ok
+error: Expected command letter
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+<Idle,MPos:-1.001,-1.001,0.000,WPos:-1.001,-1.001,0.000>
+ok
+ok
+<Idle,MPos:-10.001,-10.001,0.000,WPos:-10.001,-10.001,0.000>
+ok
+ok
+<Run,MPos:-16.582,-16.582,0.000,WPos:-16.582,-16.582,0.000>
+<Run,MPos:-18.626,-18.626,0.000,WPos:-18.626,-18.626,0.000>
+<Run,MPos:-20.171,-20.171,0.000,WPos:-20.171,-20.171,0.000>
+<Run,MPos:-21.941,-21.941,0.000,WPos:-21.941,-21.941,0.000>
+<Run,MPos:-23.760,-23.760,0.000,WPos:-23.760,-23.760,0.000>
+<Run,MPos:-25.612,-25.612,0.000,WPos:-25.612,-25.612,0.000>
+<Run,MPos:-27.247,-27.247,0.000,WPos:-27.247,-27.247,0.000>
+<Run,MPos:-28.759,-28.759,0.000,WPos:-28.759,-28.759,0.000>
+<Run,MPos:-30.255,-30.255,0.000,WPos:-30.255,-30.255,0.000>
+<Run,MPos:-31.770,-31.770,0.000,WPos:-31.770,-31.770,0.000>
+<Run,MPos:-33.427,-33.427,0.000,WPos:-33.427,-33.427,0.000>
+<Run,MPos:-34.987,-34.987,0.000,WPos:-34.987,-34.987,0.000>
+<Run,MPos:-36.562,-36.562,0.000,WPos:-36.562,-36.562,0.000>
+<Run,MPos:-38.104,-38.104,0.000,WPos:-38.104,-38.104,0.000>
+<Run,MPos:-39.664,-39.664,0.000,WPos:-39.664,-39.664,0.000>
+<Idle,MPos:-40.001,-40.001,0.000,WPos:-40.001,-40.001,0.000>
+<Idle,MPos:-40.001,-40.001,0.000,WPos:-40.001,-40.001,0.000>
+<Idle,MPos:-40.001,-40.001,0.000,WPos:-40.001,-40.001,0.000>
