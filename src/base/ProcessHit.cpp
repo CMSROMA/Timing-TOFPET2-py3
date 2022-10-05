@@ -88,7 +88,7 @@ EventBuffer<Hit> * ProcessHit::handleEvents (EventBuffer<RawHit> *inBuffer)
 				out.timeEnd = in.timeEnd;
 				out.energy = in.efine;
 			
-				if(useQDC) {
+				if(0) {
 				
 					float ti = (out.timeEnd - out.time);
 					

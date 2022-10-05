@@ -92,56 +92,56 @@ class GuiWindow(Gtk.Window):
         self.array1_entry.set_completion (self.array1_completion)
         self.mainBox.attach(self.array1_entry_combo,1, 5, 2, 1)
 
-        self.array2_label = Gtk.Label(label="IARR1 ID:")
-        self.mainBox.attach(self.array2_label, 0, 6, 1, 1)
-        self.array2_entry_combo = Gtk.ComboBox.new_with_model_and_entry(model = self.array_list)
-        self.array2_entry_combo.set_entry_text_column(0)
-        self.array2_entry_combo.connect('changed', self.array_combo_changed)
-        self.array2_completion = Gtk.EntryCompletion()
-        self.array2_completion.set_model(self.array_list) 
-        self.array2_completion.set_text_column(0)
-        self.array2_completion.set_match_func(self.array2_match_func)
-        self.array2_completion.connect ('match-selected', self.match_selected)
-        self.array2_entry = self.array2_entry_combo.get_child()
-        self.array2_entry.set_completion (self.array2_completion)
-        self.mainBox.attach(self.array2_entry_combo,1, 6, 2, 1)
+        # self.array2_label = Gtk.Label(label="IARR1 ID:")
+        # self.mainBox.attach(self.array2_label, 0, 6, 1, 1)
+        # self.array2_entry_combo = Gtk.ComboBox.new_with_model_and_entry(model = self.array_list)
+        # self.array2_entry_combo.set_entry_text_column(0)
+        # self.array2_entry_combo.connect('changed', self.array_combo_changed)
+        # self.array2_completion = Gtk.EntryCompletion()
+        # self.array2_completion.set_model(self.array_list) 
+        # self.array2_completion.set_text_column(0)
+        # self.array2_completion.set_match_func(self.array2_match_func)
+        # self.array2_completion.connect ('match-selected', self.match_selected)
+        # self.array2_entry = self.array2_entry_combo.get_child()
+        # self.array2_entry.set_completion (self.array2_completion)
+        # self.mainBox.attach(self.array2_entry_combo,1, 6, 2, 1)
 
-        self.array3_label = Gtk.Label(label="IARR2 ID:")
-        self.mainBox.attach(self.array3_label, 0, 7, 1, 1)
-        self.array3_entry_combo = Gtk.ComboBox.new_with_model_and_entry(model = self.array_list)
-        self.array3_entry_combo.set_entry_text_column(0)
-        self.array3_entry_combo.connect('changed', self.array_combo_changed)
-        self.array3_completion = Gtk.EntryCompletion()
-        self.array3_completion.set_model(self.array_list) 
-        self.array3_completion.set_text_column(0)
-        self.array3_completion.set_match_func(self.array3_match_func)
-        self.array3_completion.connect ('match-selected', self.match_selected)
-        self.array3_entry = self.array3_entry_combo.get_child()
-        self.array3_entry.set_completion (self.array3_completion)
-        self.mainBox.attach(self.array3_entry_combo,1, 7, 2, 1)
+        # self.array3_label = Gtk.Label(label="IARR2 ID:")
+        # self.mainBox.attach(self.array3_label, 0, 7, 1, 1)
+        # self.array3_entry_combo = Gtk.ComboBox.new_with_model_and_entry(model = self.array_list)
+        # self.array3_entry_combo.set_entry_text_column(0)
+        # self.array3_entry_combo.connect('changed', self.array_combo_changed)
+        # self.array3_completion = Gtk.EntryCompletion()
+        # self.array3_completion.set_model(self.array_list) 
+        # self.array3_completion.set_text_column(0)
+        # self.array3_completion.set_match_func(self.array3_match_func)
+        # self.array3_completion.connect ('match-selected', self.match_selected)
+        # self.array3_entry = self.array3_entry_combo.get_child()
+        # self.array3_entry.set_completion (self.array3_completion)
+        # self.mainBox.attach(self.array3_entry_combo,1, 7, 2, 1)
 
-        self.array4_label = Gtk.Label(label="IARR3 ID:")
-        self.mainBox.attach(self.array4_label, 0, 8, 1, 1)
-        self.array4_entry_combo = Gtk.ComboBox.new_with_model_and_entry(model = self.array_list)
-        self.array4_entry_combo.set_entry_text_column(0)
-        self.array4_entry_combo.connect('changed', self.array_combo_changed)
-        self.array4_completion = Gtk.EntryCompletion()
-        self.array4_completion.set_model(self.array_list) 
-        self.array4_completion.set_text_column(0)
-        self.array4_completion.set_match_func(self.array4_match_func)
-        self.array4_completion.connect ('match-selected', self.match_selected)
-        self.array4_entry = self.array4_entry_combo.get_child()
-        self.array4_entry.set_completion (self.array4_completion)
-        self.mainBox.attach(self.array4_entry_combo,1, 8, 2, 1)
+        # self.array4_label = Gtk.Label(label="IARR3 ID:")
+        # self.mainBox.attach(self.array4_label, 0, 8, 1, 1)
+        # self.array4_entry_combo = Gtk.ComboBox.new_with_model_and_entry(model = self.array_list)
+        # self.array4_entry_combo.set_entry_text_column(0)
+        # self.array4_entry_combo.connect('changed', self.array_combo_changed)
+        # self.array4_completion = Gtk.EntryCompletion()
+        # self.array4_completion.set_model(self.array_list) 
+        # self.array4_completion.set_text_column(0)
+        # self.array4_completion.set_match_func(self.array4_match_func)
+        # self.array4_completion.connect ('match-selected', self.match_selected)
+        # self.array4_entry = self.array4_entry_combo.get_child()
+        # self.array4_entry.set_completion (self.array4_completion)
+        # self.mainBox.attach(self.array4_entry_combo,1, 8, 2, 1)
         
         self.buttonStart = Gtk.Button(label="Start")
         self.buttonStart.connect("clicked", self.on_buttonStart_clicked)
-        self.mainBox.attach(self.buttonStart, 1, 9, 2, 1)
+        self.mainBox.attach(self.buttonStart, 1, 6, 2, 1)
 
         self.buttonStop = Gtk.Button(label="Stop")
         self.buttonStop.set_sensitive(False)
         self.buttonStop.connect("clicked", self.on_buttonStop_clicked)
-        self.mainBox.attach(self.buttonStop, 0, 9, 1, 1)
+        self.mainBox.attach(self.buttonStop, 0, 6, 1, 1)
 
         self.timeout_id = None
         self.connect("destroy", self.on_SpinnerWindow_destroy)
@@ -173,23 +173,23 @@ class GuiWindow(Gtk.Window):
                 return False
         return True
 
-    def array2_match_func (self, completion, string, _iter):
-        for word in string.split():
-            if word not in self.array_list[_iter][0].lower(): #search is always lower case
-                return False
-        return True
+    # def array2_match_func (self, completion, string, _iter):
+    #     for word in string.split():
+    #         if word not in self.array_list[_iter][0].lower(): #search is always lower case
+    #             return False
+    #     return True
     
-    def array3_match_func (self, completion, string, _iter):
-        for word in string.split():
-            if word not in self.array_list[_iter][0].lower(): #search is always lower case
-                return False
-        return True
+    # def array3_match_func (self, completion, string, _iter):
+    #     for word in string.split():
+    #         if word not in self.array_list[_iter][0].lower(): #search is always lower case
+    #             return False
+    #     return True
 
-    def array4_match_func (self, completion, string, _iter):
-        for word in string.split():
-            if word not in self.array_list[_iter][0].lower(): #search is always lower case
-                return False
-        return True
+    # def array4_match_func (self, completion, string, _iter):
+    #     for word in string.split():
+    #         if word not in self.array_list[_iter][0].lower(): #search is always lower case
+    #             return False
+    #     return True
 
     def populate_tag_list(self):
         self.tag_list.append(['REFDAILY'])
@@ -272,29 +272,29 @@ class GuiWindow(Gtk.Window):
         self.lscan.set_sensitive(False)
         self.tag_entry_combo.set_sensitive(False)
         self.array1_entry_combo.set_sensitive(False)
-        self.array2_entry_combo.set_sensitive(False)
-        self.array3_entry_combo.set_sensitive(False)
-        self.array4_entry_combo.set_sensitive(False)
+        # self.array2_entry_combo.set_sensitive(False)
+        # self.array3_entry_combo.set_sensitive(False)
+        # self.array4_entry_combo.set_sensitive(False)
         # time out will check every 250 miliseconds (1/4 of a second)
         self.counter = 0
         self.label.set_label("Running DAQ: " + str(int(self.counter / 4)))
-        runCommand="python run_DAQ_multiarrays.py -c list_config_main_array.txt -o /data/cmsdaq/LYSOMULTIARRAYNEWLAB4ARRAYS/ -n "
+        runCommand="python run_DAQ_multiarrays.py -c list_config_main_array.txt -o /media/cmsdaq/ext/data/LYSOARRAYS_NEW/ -n "
         if (self.array1_entry.get_text()):
-            runCommand+='%s,'%self.array1_entry.get_text()
-        else:
-            runCommand+='-1,'
-        if (self.array2_entry.get_text()):
-            runCommand+='%s,'%self.array2_entry.get_text()
-        else:
-            runCommand+='-1,'
-        if (self.array3_entry.get_text()):
-            runCommand+='%s,'%self.array3_entry.get_text()
-        else:
-            runCommand+='-1,'
-        if (self.array4_entry.get_text()):
-            runCommand+='%s'%self.array4_entry.get_text()
-        else:
-            runCommand+='-1'
+            runCommand+='%s '%self.array1_entry.get_text()
+        # else:
+        #     runCommand+='-1,'
+        # if (self.array2_entry.get_text()):
+        #     runCommand+='%s,'%self.array2_entry.get_text()
+        # else:
+        #     runCommand+='-1,'
+        # if (self.array3_entry.get_text()):
+        #     runCommand+='%s,'%self.array3_entry.get_text()
+        # else:
+        #     runCommand+='-1,'
+        # if (self.array4_entry.get_text()):
+        #     runCommand+='%s'%self.array4_entry.get_text()
+        # else:
+        #     runCommand+='-1'
         if (self.tag_entry.get_text()):
             runCommand+=' -t %s'%self.tag_entry.get_text()
         if (self.lscan.get_active()):
@@ -346,9 +346,9 @@ class GuiWindow(Gtk.Window):
         self.lscan.set_sensitive(True)
         self.tag_entry_combo.set_sensitive(True)
         self.array1_entry_combo.set_sensitive(True)
-        self.array2_entry_combo.set_sensitive(True)
-        self.array3_entry_combo.set_sensitive(True)
-        self.array4_entry_combo.set_sensitive(True)                
+        # self.array2_entry_combo.set_sensitive(True)
+        # self.array3_entry_combo.set_sensitive(True)
+        # self.array4_entry_combo.set_sensitive(True)                
         self.label.set_label(alabeltext)
         self.processWindow.set_title(alabeltext)
 #        self.processWindow.hide()
