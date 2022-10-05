@@ -1,4 +1,4 @@
-# Install script for directory: /home/cmsdaq/TOFPET/sw_daq_tofpet2-2022.05.09
+# Install script for directory: /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/cmsdaq/TOFPET/sw_daq_tofpet2-2022.05.09/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

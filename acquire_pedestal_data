@@ -1,0 +1,211 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from petsys import daqd, config
+from copy import deepcopy
+import argparse
+import time
+
+parser = argparse.ArgumentParser(description='Acquire data for TDC calibration')
+parser.add_argument("--config", type=str, required=True, help="Configuration file")
+parser.add_argument("-o", type=str, dest="fileNamePrefix", required=True, help="Data filename (prefix)")
+parser.add_argument("--time", type=float, required=True, help="Acquisition time (in seconds)")
+parser.add_argument("--nloops", type=int, required=False, default=1, help="Acquisition loops (integer)")
+parser.add_argument("--sleep", type=float, required=False, default=0, help="Sleep time between loops (seconds)")
+parser.add_argument("--mode", type=str, required=True, choices=["tot", "qdc"], help="Acquisition mode (ToT or QDC)")
+parser.add_argument("--enable-hw-trigger", dest="hwTrigger", action="store_true", help="Enable the hardware coincidence filter")
+parser.add_argument("--cfgChannels", type=str, dest="cfgChannels", required=True, help="Configuration file with list of channels")
+parser.add_argument("--pedAllChannels", type=int, dest="pedAllChannels", required=False, default=0, help="Set to 1 to run pedestals on all channels")
+parser.add_argument("--enabledChannels", type=str, dest="enabledChannels", default="",required=False, help="List of channels with trigger enabled. The string format is 0_1_2_3 to eanble channels CH0, CH1, CH2, CH3 accordingly to configuration file. If nothing is specified all channels in configuration file can trigger.")
+args = parser.parse_args()
+
+################################
+
+#The configChannels .txt file  should have lines with this format
+##  ID   NHV    VBR    OV    NCHIP    NCH    VTH_1    VTH_2    VTH_E    SIPM_CODE    SIPM_TYPE     X    Y    Z    CRYSTAL
+#CH 0    11     52.25  7.00  0        59     20       20       15       10579        S13360-3025CS --   --   360  LYSO_3_3_5
+#CH 1    29     51.74  7.00  4        59     20       20       15       10580        S13360-3025CS --   --   170  LYSO_3_3_5
+cfg = open(args.cfgChannels, "r")
+
+channelList = {}
+for line in cfg:
+
+    #skip commented out lines or empty lines
+    if (line.startswith("#")):
+        continue
+    if line in ['\n','\r\n']:
+        continue
+        
+    line = line.rstrip('\n')
+    splitline = line.split()
+    linetype = splitline[0]
+    linesize = len(splitline)
+
+    if (linetype == "CH" and linesize==16):
+        CH = splitline[1]
+        NCHIP = splitline[5]
+        NCH = splitline[6]
+        #channelList.append( (int(CH),int(NCHIP),int(NCH)) )
+        channelList[int(CH)]=(int(NCHIP),int(NCH))
+
+cfg.close()
+
+print("Channels in config file: ", channelList)
+
+################################
+
+channelsEnabled = []
+
+if args.enabledChannels!="":
+    channelsEnabled = args.enabledChannels.split("_")
+    print("Channels with trigger enabled: ", channelsEnabled)
+
+################################
+
+mask = config.LOAD_ALL
+if args.mode != "mixed":
+        mask ^= config.LOAD_QDCMODE_MAP
+systemConfig = config.ConfigFromFile(args.config, loadMask=mask)
+
+#systemConfig = config.ConfigFromFile(args.config)
+
+daqd = daqd.Connection()
+daqd.initializeSystem()
+
+qdcMode = args.mode == "qdc"
+
+systemConfig.loadToHardware(daqd, bias_enable=config.APPLY_BIAS_ON, hw_trigger_enable=args.hwTrigger, qdc_mode = args.mode)
+
+asicsConfig = daqd.getAsicsConfig()
+for ac in asicsConfig.values():
+    gc = ac.globalConfig
+    #gc.setValue("v_att_diff_bias_ig", 0b111000)                            
+    #gc.setValue("v_att_diff_bias_ig", 0b100011)                            
+
+    for cc in ac.channelConfig:
+        # Disable channel from triggering.
+        # Will selectively enable channels below
+        #cc.setValue("trigger_mode_1", 0b01)
+        cc.setValue("trigger_mode_1", 0b11)
+
+        # Set simplest trigger_mode_2_* setting
+        #cc.setValue("trigger_mode_2_t", 0b00)
+        #cc.setValue("trigger_mode_2_e", 0b000)
+        #cc.setValue("trigger_mode_2_q", 0b00)
+        #cc.setValue("trigger_mode_2_b", 0b000)
+                
+        # Allow full range integration time
+        # cc.setValue("min_intg_time", 0)
+        # cc.setValue("max_intg_time", 127)
+        #Set integration time
+        #print "min ", cc.getValue("min_intg_time")
+        #print "max", cc.getValue("max_intg_time")
+        #cc.setValue("min_intg_time", 20)
+        #cc.setValue("max_intg_time", 20)
+
+        if not qdcMode:
+            cc.setValue("qdc_mode", 0)
+            cc.setValue("intg_en", 0)
+            cc.setValue("intg_signal_en", 0)
+        else:
+            cc.setValue("qdc_mode", 1)
+            ## TO BE CHECKED
+            cc.setValue("intg_en", 1)
+            cc.setValue("intg_signal_en", 1)
+            ##
+
+        #print "min_intg_time, max_intg_time", cc.getValue("min_intg_time"), cc.getValue("max_intg_time")
+
+#Open raw output file
+daqd.openRawAcquisition(args.fileNamePrefix)
+
+if args.pedAllChannels==0:
+#Collect pedestals only for channels in config file
+    for i in range(args.nloops):
+        print(" --- Starting LOOP: "+str(i+1))
+        for chNumber, channel in channelList.items():
+            thischip = channel[0]
+            thischannel = channel[1]
+
+            channelOK = 1
+            if args.enabledChannels!="":
+                channelOK = 0
+            for chEnabled in channelsEnabled:
+                if (int(chEnabled) == chNumber):
+                    channelOK = 1 #found channel
+                    break
+            if channelOK == 0:
+                continue
+
+            #This config has all channels disabled by default. Will enable the channels one-by-one.
+            cfgCopy = deepcopy(asicsConfig)
+    
+            for key, ac in cfgCopy.items():
+        
+                print(key, ac)
+                chip = key[2]
+                if (chip == thischip):
+
+                    #Scan test pulse phase
+                    for phase in [0.0/3, 1.0/3, 2.0/3]:
+                    #for phase in [0.0]:
+
+                        print("Enable test pulse for chip ", chip, " , channel", thischannel)
+                        ac.channelConfig[thischannel].setValue("trigger_mode_1", 0b01)
+
+                        #Set Test Pulse 2000000 ~ 100 Hz, 200000 ~ 1 kHz 
+                        print("TestPulse PLL phase: ", phase)
+                        daqd.setTestPulsePLL(200, 10000, phase, False)
+
+                        #update config
+                        daqd.setAsicsConfig(cfgCopy)
+
+                        #start daq
+                        daqd.acquire(args.time, 0, 0);
+
+                        #update config (disable again the current channel)
+                        ac.channelConfig[thischannel].setValue("trigger_mode_1", 0b11)
+                        daqd.setAsicsConfig(cfgCopy)
+
+        print("Sleeping %f s"%args.sleep)
+        time.sleep(args.sleep)
+
+else:
+#Collect pedestals for all channels in active chips 
+    for i in range(args.nloops):
+        print(" --- Starting LOOP: "+str(i+1))
+        
+        for thischannel in range(0,64):
+            #This config has all channels disabled by default. Will enable one by one.
+            cfgCopy = deepcopy(asicsConfig)
+            
+            for key, ac in cfgCopy.items():
+                
+                print(key, ac)
+                chip = key[2]
+                
+                #Scan test pulse phase
+                for phase in [0.0/3, 1.0/3, 2.0/3]:
+                #for phase in [0.0]:
+
+                    print("Enable test pulse for chip ", chip, " , channel", thischannel)
+                    ac.channelConfig[thischannel].setValue("trigger_mode_1", 0b01)
+                    
+                    #Set Test Pulse 2000000 ~ 100 Hz, 200000 ~ 1 kHz 
+                    print("TestPulse PLL phase: ", phase)
+                    daqd.setTestPulsePLL(200, 200000, phase, False)
+                    
+                    #update config
+                    daqd.setAsicsConfig(cfgCopy)
+                    
+                    #start daq
+                    daqd.acquire(args.time, 0, 0);
+                    
+                    #update config (disable again the current channel)
+                    ac.channelConfig[thischannel].setValue("trigger_mode_1", 0b11)
+                    daqd.setAsicsConfig(cfgCopy)
+
+        print("Sleeping %f s"%args.sleep)
+        time.sleep(args.sleep)
+        
+systemConfig.loadToHardware(daqd, bias_enable=config.APPLY_BIAS_OFF)

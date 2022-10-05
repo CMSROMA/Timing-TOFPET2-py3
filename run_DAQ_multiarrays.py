@@ -118,9 +118,6 @@ def RUN(configArray,runtype,time,ov,ovref,gate,label,enabledCh,thresholds,thresh
 
     print (commandRun)
 
-    return;
-
-'''
 ### with Airtable
     tags=newlabel.split('_')
     print(tags)
@@ -149,8 +146,8 @@ def RUN(configArray,runtype,time,ov,ovref,gate,label,enabledCh,thresholds,thresh
     else:
         print('%s successfully inserted into RunDB'%tags[0])
 
-  return;
-'''
+    return;
+
 
 
 ###################
@@ -184,8 +181,8 @@ sleep = 0
 # 
 # xyz position of the center of the arrays (for example, position of bar 8 [counting from 0])
 dict_array_x_y_z = {
-    #0: np.array([70.7, 44.0, 23.]),
-    1: np.array([25.0, 25.0, 0.0])
+    0: np.array([10, 22, 0]),
+    #1: np.array([25.0, 25.0, 0.0])
     #2: np.array([216.1, 138.3, 23.]),
     #3: np.array([215.1, 42.5, 23.])
 }
@@ -250,12 +247,12 @@ else:
 #
 aMoverTop=XYMover(8820)
 print (aMoverTop.estimatedPosition())
+aMoverTop.moveAbsoluteXY(10,22)
 #aMoverTop.lightsOn() #no lights in array bench single
 
 aMoverBottom=XYMover(8821)
 print (aMoverBottom.estimatedPosition())
-aMoverBottom.moveAbsoluteXY(25,25)
-
+aMoverBottom.moveAbsoluteXY(15,22)
 
 sys.stdout.flush()
 
@@ -332,11 +329,10 @@ except KeyboardInterrupt:
     print("Ctrl+C pressed")
 
 print ("Moving back to home...")
-aMoverTop.moveAbsoluteXY(25,48)
-print (aMoverTop.estimatedPosition())
+#aMoverTop.moveAbsoluteXY(1,48)
+#print (aMoverTop.estimatedPosition())
 #print (aMoverTop.lightsOff())
-
-aMoverBottom.moveAbsoluteXY(25,1)
-
+#aMoverBottom.moveAbsoluteXY(1,1)
+#print (aMoverBottom.estimatedPosition())
 print ("++++ Run completed +++++")                    
 sys.stdout.flush()

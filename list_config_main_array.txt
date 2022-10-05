@@ -1,4 +1,1 @@
 /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/config_main_array_1.txt
-/home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/config_main_array_1.txt
-/home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/config_main_array_1.txt
-/home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/config_main_array_1.txt

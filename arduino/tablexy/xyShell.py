@@ -11,7 +11,7 @@ parser = optparse.OptionParser("usage: xyShell.py --port 8820")
 parser.add_option("--port", dest="myport", default=8820,
                   help="port")
 (opt, args) = parser.parse_args()
-print opt.myport
+print(opt.myport)
 
 
 class App(npyscreen.StandardApp):
