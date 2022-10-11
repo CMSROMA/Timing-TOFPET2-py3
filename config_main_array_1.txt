@@ -42,7 +42,7 @@ TIME 0.3
 #TIME 1
 OUTPUT_DIR /media/cmsdaq/ext/data/LYSOARRAYS_NEW/
 #OUTPUT_DIR output/Pedestal
-OUTPUT_LABEL Run000041_2022-10-05-18-27-45_ARRAY000810_IARR0_POS0_X10_Y22_Z0_TEST
+OUTPUT_LABEL Run000059_2022-10-10-10-24-21_ARRAY000405_IARR0_POS0_X10_Y22_Z0_TEST
 #OUTPUT_LABEL PedestalTest13_2ch_100000delay
 
 #Channels
@@ -52,8 +52,10 @@ OVERWRITE_OV 8
 #REF are always CH0 and CH1 (reference bar)
 ## TO BE CHECKED: position of pixels and NHV ##
 #  ID	NHV    VBR    OV    NCHIP    NCH    VTH_1    VTH_2    VTH_E    SIPM_CODE    SIPM_TYPE     X    Y    Z    CRYSTAL	
-CH 0    7     50.60  7.00  1         3      15       15       15       11040        S13360-3025CS -1   -1   -1    LYSO_bar
-CH 1    7     50.60  7.00  1         27     15       15       15       11041        S13360-3025CS -1   -1   -1    LYSO_bar
+#CH 0    7     50.60  7.00  1         3      15       15       15       11040        S13360-3025CS -1   -1   -1    LYSO_bar
+#CH 1    7     50.60  7.00  1         27     15       15       15       11041        S13360-3025CS -1   -1   -1    LYSO_bar
+CH 0    6     50.60  7.00  1         52      15       15       15       11040        S13360-3025CS -1   -1   -1    LYSO_bar
+CH 1    6     50.60  7.00  1         57     15       15       15       11041        S13360-3025CS -1   -1   -1    LYSO_bar
 CH 2    2     51.40  7.00  5         11     15       15       15       xx           xx            -1   -1   -1    LYSO_bar0
 CH 3    2     51.40  7.00  5         13     15       15       15       xx           xx            -1   -1   -1    LYSO_bar1
 CH 4    2     51.40  7.00  5         15     15       15       15       xx           xx            -1   -1   -1    LYSO_bar2
