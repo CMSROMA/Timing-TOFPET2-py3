@@ -237,7 +237,7 @@ histos['XT_vs_bar'].Draw("PESAME")
 c3_XT.SaveAs(mergedLabel+"_"+"SUMMARY_xtalk.png")
 c3_XT.Write()
 
-for hn,h in histos.iteritems():
+for hn,h in histos.items():
     h.Write()
 summary.Print()
 summary.Close()

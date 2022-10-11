@@ -795,10 +795,11 @@ for barId in range(0,16):
     gROOT.ProcessLine('ctrAnalysis.alignedBar_511Peak_mean.push_back(%f);'%fitResults[('barCoinc%d'%barId,"peak1","mean","value")])
     gROOT.ProcessLine('ctrAnalysis.alignedBar_511Peak_sigma.push_back(%f);'%fitResults[('barCoinc%d'%barId,"peak1","sigma","value")])
 
+print("========> Running final CTR analysis")
 gBenchmark.Start( 'ctrAnalysis' )
 gROOT.ProcessLine("ctrAnalysis.Loop();")
 gBenchmark.Show( 'ctrAnalysis' )
-
+print("========> CTR analysis completed")
 
 ### Time resolution ###
 

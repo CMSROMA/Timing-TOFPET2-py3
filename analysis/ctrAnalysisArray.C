@@ -259,8 +259,11 @@ void ctrAnalysisArray::Loop()
 #endif	  
 	float refTemp=h1_temp_ref_VsTime->Interpolate((time[0]+time[1])/2/1E12);
 	  
-	energyRef1 = (energy[0]-ped1-pedTime1)*(1 + (refTemp-4)*0.033);
-	energyRef2 = (energy[1]-ped2-pedTime2)*(1 + (refTemp-4)*0.033);
+	// energyRef1 = (energy[0]-ped1-pedTime1)*(1 + (refTemp-4)*0.033);
+	// energyRef2 = (energy[1]-ped2-pedTime2)*(1 + (refTemp-4)*0.033);
+	energyRef1 = (energy[0]-ped1-pedTime1);
+	energyRef2 = (energy[1]-ped2-pedTime2);
+
 	energyRef=energyRef1+energyRef2;
 	    
 	if (energyRef1 < 10. || energyRef2 < 10. )
@@ -310,6 +313,7 @@ void ctrAnalysisArray::Loop()
 	/// === Time resolution ===
 	float NsigmaCut = 1;
 	//cout << "bar: " << ibar << " mean: " << alignedBar_511Peak_mean[ibar] << " sigma: " << alignedBar_511Peak_sigma[ibar] << endl;
+	//cout << "bar: " << ibar << " energy " << energyBar << " energyRef " << energyRef << std::endl;
 	if( (fabs(energyRef-ref_511Peak_mean)/ref_511Peak_sigma)<NsigmaCut
 	    &&  (fabs(energyBar - alignedBar_511Peak_mean[ibar])/alignedBar_511Peak_sigma[ibar])<NsigmaCut)
 	  { 

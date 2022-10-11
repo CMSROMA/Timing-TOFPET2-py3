@@ -49,7 +49,7 @@ if not opt.outputRootFile:
 ################################################
 
 gROOT.SetBatch(True)
-gROOT.ProcessLine(".L /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2/analysis/findCoincidences.C+")
+gROOT.ProcessLine(".L /home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/analysis/findCoincidences.C+")
 
 gROOT.ProcessLine('TFile* f = new TFile("%s");'%opt.inputRootFile)
 gROOT.ProcessLine('TTree* tree; f->GetObject("data",tree);')
