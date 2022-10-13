@@ -44,7 +44,7 @@ gStyle.SetStatH(0.09)
 #--------------------------------------------------------
 
 list_allfiles = os.listdir(opt.inputDir)
-#print list_allfiles
+#print (list_allfiles)
 
 #alignBarNumber = 0
 #alignBarCh1 = 2 
@@ -67,15 +67,15 @@ for file in list_allfiles:
 
     if ("_coincidences.root" in file):
         input_filename_coinc = opt.inputDir + "/" + file
-        print input_filename_coinc
+        print (input_filename_coinc)
 
-        ARRAY = int(input_filename_coinc.split("/")[-1].split("_")[3].replace("ANUM",""))
+        ARRAY = int(input_filename_coinc.split("/")[-1].split("_")[3].replace("IARR",""))
         POS = int(input_filename_coinc.split("/")[-1].split("_")[4].replace("POS",""))
         X = float(input_filename_coinc.split("/")[-1].split("_")[5].replace("X",""))
         Y = float(input_filename_coinc.split("/")[-1].split("_")[6].replace("Y",""))
         Z = float(input_filename_coinc.split("/")[-1].split("_")[7].replace("Z",""))
 
-        print ARRAY, POS, X, Y, Z
+        print (ARRAY, POS, X, Y, Z)
 
         if ARRAY not in listARRAY:        
             listARRAY.append(ARRAY)
@@ -96,7 +96,7 @@ for file in list_allfiles:
             if(tree.energy[0]>-9 and tree.energy[1]>-9 and tree.energy[alignBarCh1]>-9):
                 nhits_coinc = nhits_coinc + 1
 
-        print nhits_coinc
+        print (nhits_coinc)
 
         #scan X
         if (POS >= 0 and POS <= 16):
@@ -111,7 +111,7 @@ for file in list_allfiles:
         tfile.Close()
 
 # available arrays
-print listARRAY
+print (listARRAY)
 
 posARRAY = {}
 
@@ -129,9 +129,9 @@ for iarr in listARRAY:
     #max_Y = func_fity.GetX(func_fity.GetMaximum())
     max_X = func_fitx.GetMaximumX()
     max_Y = func_fity.GetMaximumX()
-    print "================================="    
-    print "==== ARRAY, maxX, maxY: " , iarr, max_X, max_Y
-    print "================================="
+    print ("=================================")    
+    print ("==== ARRAY, maxX, maxY: " , iarr, max_X, max_Y)
+    print ("=================================")
     posARRAY[iarr]=(round(max_X,1),round(max_Y,1))
     
     #style
@@ -172,7 +172,7 @@ for iarr in listARRAY:
     c2.SaveAs(opt.outputDir+"/"+"alignArray_Y"+"_array_"+str(iarr)+".png")
     c2.SaveAs(opt.outputDir+"/"+"alignArray_Y"+"_array_"+str(iarr)+".root")
 
-print "Position of bar"+str(alignBarNumber)+" (counting from 0) of each array"
-print "ARRAY NUMBER ; (X, Y)"    
+print ("Position of bar"+str(alignBarNumber)+" (counting from 0) of each array")
+print ("ARRAY NUMBER ; (X, Y)")    
 for iarr in listARRAY:
-    print iarr, posARRAY[iarr]
+    print (iarr, posARRAY[iarr])

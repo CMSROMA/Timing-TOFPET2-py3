@@ -10,10 +10,18 @@ print (aMover.estimatedPosition())
 #print ("++++ Moving to 25,25 +++++")
 #print (aMover.moveAbsoluteXY(25,25))
 #print (aMover.estimatedPosition())
-print (aMover.moveAbsoluteXY(10,20))
+
+#approximately the center
+print (aMover.moveAbsoluteXY(18,22))
 print (aMover.estimatedPosition())
-print (aMover1.moveAbsoluteXY(15,1))
+print (aMover1.moveAbsoluteXY(24,24))
 print (aMover1.estimatedPosition())
+#position after end of run
+#print (aMover.moveAbsoluteXY(20,48))
+#print (aMover.estimatedPosition())
+#print (aMover1.moveAbsoluteXY(24,1))
+#print (aMover1.estimatedPosition())
+#
 print ("++++ Done +++++")
 
 #print ("++++ Moving 100,30 out of bounds +++++")

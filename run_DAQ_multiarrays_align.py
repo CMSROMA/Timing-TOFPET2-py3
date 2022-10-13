@@ -14,7 +14,7 @@ import re
 import numpy as np
 import copy
 
-runNumberFileName="/home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/data/RunNumbersMultiArray.txt"
+runNumberFileName="/home/cmsdaq/Workspace/TOFPET/Timing-TOFPET2-py3/data/RunNumbersTest.txt"
 
 sys.path.insert(1, os.path.join(sys.path[0], 'arduino/tablexy/'))
 from xyMover import XYMover
@@ -118,35 +118,39 @@ def RUN(configArray,runtype,time,ov,ovref,gate,label,enabledCh,thresholds,thresh
 
     print (commandRun)
 
-### with Airtable
-    tags=newlabel.split('_')
-    print(tags)
-    posX=float(tags[5].replace('X',''))
-    posY=float(tags[6].replace('Y',''))
-    dbCommand = ". ~/AutoProcess/setup.sh; python3 ~/AutoProcess/insertRun.py --id=%s --type=%s --tag=%s --ov=%1.f --posx=%.1f --posy=%.1f "%(tags[0],runtype,newlabel,ov,posX,posY)
-    if (runtype == 'PHYS'):
-        dbCommand += ' --xtal=%s'%tags[2]
-    print(dbCommand)
-#    insertDBStatus=os.WEXITSTATUS(os.system(dbCommand))
-    insertDBStatus=subprocess.call(dbCommand,shell=True)
-    if (not insertDBStatus==0):
-        print('Error writing %s to runDB. Giving up'%tags[0])
-        return
-
-#    exitStatus=os.WEXITSTATUS(os.system(commandRun))
-    exitStatus=subprocess.call(commandRun,shell=True)
-
-    dbCommandCompleted = ". ~/AutoProcess/setup.sh; python3 ~/AutoProcess/updateRun.py --id=%s --status='%s'"%(tags[0],'DAQ COMPLETED' if exitStatus==0 else 'FAILED')
-    print(dbCommandCompleted)
-#    insertDBStatus=os.WEXITSTATUS(os.system(dbCommandCompleted))
-    insertDBStatus=subprocess.call(dbCommandCompleted,shell=True)
-    if (not insertDBStatus==0):
-        print('Error writing %s to runDB. Giving up'%tags[0])
-        return
-    else:
-        print('%s successfully inserted into RunDB'%tags[0])
-
+## without Airtable
+    os.system(commandRun)
     return;
+
+### with Airtable
+#    tags=newlabel.split('_')
+#    print(tags)
+#    posX=float(tags[5].replace('X',''))
+#    posY=float(tags[6].replace('Y',''))
+#    dbCommand = ". ~/AutoProcess/setup.sh; python3 ~/AutoProcess/insertRun.py --id=%s --type=%s --tag=%s --ov=%1.f --posx=%.1f --posy=%.1f "%(tags[0],runtype,newlabel,ov,posX,posY)
+#    if (runtype == 'PHYS'):
+#        dbCommand += ' --xtal=%s'%tags[2]
+#    print(dbCommand)
+##    insertDBStatus=os.WEXITSTATUS(os.system(dbCommand))
+#    insertDBStatus=subprocess.call(dbCommand,shell=True)
+#    if (not insertDBStatus==0):
+#        print('Error writing %s to runDB. Giving up'%tags[0])
+#        return
+#
+##    exitStatus=os.WEXITSTATUS(os.system(commandRun))
+#    exitStatus=subprocess.call(commandRun,shell=True)
+#
+#    dbCommandCompleted = ". ~/AutoProcess/setup.sh; python3 ~/AutoProcess/updateRun.py --id=%s --status='%s'"%(tags[0],'DAQ COMPLETED' if exitStatus==0 else 'FAILED')
+#    print(dbCommandCompleted)
+##    insertDBStatus=os.WEXITSTATUS(os.system(dbCommandCompleted))
+#    insertDBStatus=subprocess.call(dbCommandCompleted,shell=True)
+#    if (not insertDBStatus==0):
+#        print('Error writing %s to runDB. Giving up'%tags[0])
+#        return
+#    else:
+#        print('%s successfully inserted into RunDB'%tags[0])
+#
+#    return;
 
 
 
@@ -156,32 +160,32 @@ def RUN(configArray,runtype,time,ov,ovref,gate,label,enabledCh,thresholds,thresh
 
 ## array ##
 
-channelList="0_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25_26_27_28_29_30_31_32_33"
+channelList="0_1_10_26"
 nch = len(channelList.split("_"))
 #
 #energyThrValue = 20
 #energyThrList = '_'.join([str(energyThrValue)] * nch)
-energyThrList = "20_20_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6"
+energyThrList = "5_5_5_5"
 #
 #t1ThrValue = 35
 #t1ThrList = '_'.join([str(t1ThrValue)] * nch)
-t1ThrList = "35_35_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25"
+t1ThrList = "35_35_35_35"
 #
 t_ped = 0.3 #s
-t_phys = 300 #s
+t_phys = 10 #s
 #ov_values = [8,4] #V
 ov_values = [8] #V
 ovref_values = [8] #V
 gate_values = [34] # # MIN_INTG_TIME/MAX_INTG_TIME 34 = (34 x 4 - 78) x 5 ns = 290ns (for values in range 32...127). Check TOFPET2C ASIC guide.
-names = opt.nameLabel.split(',')
-#names = opt.nameLabel
-t_ped_in_phys = 0.015 #s
-nloops = 10
+#names = opt.nameLabel.split(',')
+names = opt.nameLabel
+t_ped_in_phys = 0. #s
+nloops = 1
 sleep = 0
 # 
 # xyz position of the center of the arrays (for example, position of bar 8 [counting from 0])
 dict_array_x_y_z = {
-    0: np.array([18, 22, 0]),
+    0: np.array([20, 24, 0]),
     #1: np.array([25.0, 25.0, 0.0])
     #2: np.array([216.1, 138.3, 23.]),
     #3: np.array([215.1, 42.5, 23.])
@@ -194,50 +198,47 @@ dict_array_x_y_z = {
 dict_Scan = {
 
     #DEFAULT SINGLE RUN
-    0: [np.array([0, 0, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    #0: [np.array([0, 0, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
 
+    #POSITION SCAN: X
+    0: [np.array([-15., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    1: [np.array([-12., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    2: [np.array([-9., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    3: [np.array([-6., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    4: [np.array([-4., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    5: [np.array([-3., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    6: [np.array([-2., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    7: [np.array([-1., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    8: [np.array([0., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    9: [np.array([1., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    10: [np.array([2, 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    11: [np.array([3, 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    12: [np.array([4, 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    13: [np.array([6, 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    14: [np.array([9, 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    15: [np.array([12, 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    16: [np.array([15, 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+
+    #POSITION SCAN: Y
+    17: [np.array([0., -15., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    18: [np.array([0., -12., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    19: [np.array([0., -9., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    20: [np.array([0., -6., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    21: [np.array([0., -4., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    22: [np.array([0., -3., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    23: [np.array([0., -2., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    24: [np.array([0., -1, 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    25: [np.array([0., 0., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    26: [np.array([0., 1., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    27: [np.array([0., 2., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    28: [np.array([0., 3., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    29: [np.array([0., 4., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    30: [np.array([0., 6., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    31: [np.array([0., 9., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    32: [np.array([0., 12., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
+    33: [np.array([0., 15., 0.]),channelList,energyThrList,t1ThrList,nloops,sleep],
 }
 
-if (opt.lscan):
-    dict_Scan = {
-
-        #DEFAULT SINGLE RUN
-    0: [np.array([0, 0, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    1: [np.array([0, 3, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    2: [np.array([0, 6, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    3: [np.array([0, 9, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    4: [np.array([0, 12, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    5: [np.array([0, 15, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    6: [np.array([0, 18, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    7: [np.array([0, 21, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    -1: [np.array([0, -3, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    -2: [np.array([0, -6, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    -3: [np.array([0, -9, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    -4: [np.array([0, -12, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    -5: [np.array([0, -15, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    -6: [np.array([0, -18, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    -7: [np.array([0, -21, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-
-    }
-elif (opt.thscan):
-    dict_Scan = {
-    #T1 THRESHOLD SCAN
-    0: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15_15",nloops,sleep],
-    1: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20_20",nloops,sleep],
-   2: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25",nloops,sleep],
-   3: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30_30",nloops,sleep],
-    4: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35_35",nloops,sleep],
-    5: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40_40",nloops,sleep],
-    6: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45_45",nloops,sleep],
-    7: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50_50",nloops,sleep],
-    9: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55_55",nloops,sleep],
-    10: [np.array([0, 0, 0]),channelList,energyThrList,"35_35_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60_60",nloops,sleep],
-    }
-else:
-    dict_Scan = {
-    #DEFAULT SINGLE RUN
-    0: [np.array([0, 0, 0]),channelList,energyThrList,t1ThrList,nloops,sleep],
-    }
 #print "Scan" , dict_Scan
 
 ###################################################################
@@ -256,32 +257,19 @@ aMoverBottom.moveAbsoluteXY(24,24)
 
 sys.stdout.flush()
 
-print (len(names),len(cfileNames))
+#print (len(names),len(cfileNames))
 
-if len(cfileNames) != len(names):
-    print("Mismatch in number of arrays. Please check that you have specified the correct number of arrays in the config")
-    exit(-1)
-
-# Add LSCAN at end if LSCAN is selected
-if (opt.lscan):
-    if (opt.tag):
-        opt.tag = opt.tag + '-LSCAN'
-    else:
-        opt.tag = 'LSCAN'
-
-if (opt.thscan):
-    if (opt.tag):
-        opt.tag = opt.tag + '-THSCAN'
-    else:
-        opt.tag = 'THSCAN'
+#if len(cfileNames) != len(names):
+#    print("Mismatch in number of arrays. Please check that you have specified the correct number of arrays in the config")
+#    exit(-1)
 
 try:
     for iarr,arr in enumerate(cfileNames):
         print ("")
         print ("=== Run daq for array ", iarr)
         print (arr)
-        if int(names[iarr])==-1:
-            continue
+        #if int(names[iarr])==-1:
+        #    continue
 
         # edit dictionary with position of current array
         dict_Scan_current = copy.deepcopy(dict_Scan) 
@@ -306,7 +294,8 @@ try:
                         print ("++++ Done +++++")                    
                         sys.stdout.flush()
                         #=== file name
-                        thisname = 'ARRAY'+str(names[iarr]).zfill(6)+"_IARR"+str(iarr)+"_POS"+str(kStep)+"_X"+str(kInfo[0][0])+"_Y"+str(kInfo[0][1])+"_Z"+str(kInfo[0][2])
+                        #thisname = 'ARRAY'+str(names[iarr]).zfill(6)+"_IARR"+str(iarr)+"_POS"+str(kStep)+"_X"+str(kInfo[0][0])+"_Y"+str(kInfo[0][1])+"_Z"+str(kInfo[0][2])
+                        thisname = 'ARRAY'+str(names).zfill(6)+"_IARR"+str(iarr)+"_POS"+str(kStep)+"_X"+str(kInfo[0][0])+"_Y"+str(kInfo[0][1])+"_Z"+str(kInfo[0][2])
                     
 
                         # Add the additional tag (e.g. REF_DAILY)
@@ -317,9 +306,9 @@ try:
                         sys.stdout.flush()
                         time.sleep(5)
                         #============================================
-                        RUN(arr,"PED",t_ped,ov,ovref,gate,thisname,kInfo[1],"","",1,0,0.)
+                        #RUN(arr,"PED",t_ped,ov,ovref,gate,thisname,kInfo[1],"","",1,0,0.)
                         RUN(arr,"PHYS",t_phys,ov,ovref,gate,thisname,kInfo[1],kInfo[2],kInfo[3],kInfo[4],kInfo[5],t_ped_in_phys) 
-                        RUN(arr,"PED",t_ped,ov,ovref,gate,thisname,kInfo[1],"","",1,0,0.)
+                        #RUN(arr,"PED",t_ped,ov,ovref,gate,thisname,kInfo[1],"","",1,0,0.)
                         #============================================
                         time.sleep(5)
                         #aMoverTop.lightsOn()
