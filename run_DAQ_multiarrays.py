@@ -161,7 +161,9 @@ nch = len(channelList.split("_"))
 #
 #energyThrValue = 20
 #energyThrList = '_'.join([str(energyThrValue)] * nch)
-energyThrList = "20_20_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6"
+#avoid many data from bar0
+energyThrList = "20_20_15_15_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6"
+#energyThrList = "20_20_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6"
 #
 #t1ThrValue = 35
 #t1ThrList = '_'.join([str(t1ThrValue)] * nch)
@@ -170,6 +172,7 @@ t1ThrList = "35_35_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_25_2
 t_ped = 0.3 #s
 t_phys = 300 #s
 #ov_values = [8,4] #V
+#ov_values = [8,7,6,5,4,3] #V
 ov_values = [8] #V
 ovref_values = [8] #V
 gate_values = [34] # # MIN_INTG_TIME/MAX_INTG_TIME 34 = (34 x 4 - 78) x 5 ns = 290ns (for values in range 32...127). Check TOFPET2C ASIC guide.

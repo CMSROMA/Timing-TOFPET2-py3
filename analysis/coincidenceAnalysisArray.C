@@ -250,7 +250,7 @@ void coincidenceAnalysisArray::Loop()
 	  float energyBar =  0;
 	  
 	  int i_array=arrayId(channels[ibar+2]);
-	  float calibBar= calibMap[i_array]&&applyCalib ? calibMap[i_array]->GetBinContent(ibar+1) : 1.;
+	  float calibBar= calibMap[i_array]&&applyCalib&&calibMap[i_array]->GetBinContent(ibar+1)>0 ? calibMap[i_array]->GetBinContent(ibar+1) : 1.;
 #ifdef TEST_1_ARRAY
 	  float barTemp=h1_temp_array_VsTime[i_array]->Interpolate((time[ibar+2])/1E12);
 	  float ped1=pedValue->GetBinContent(channels[ibar+2]*4+tacID[ibar+2]+1)+pedSlope->GetBinContent(channels[ibar+2]*4+tacID[ibar+2]+1)*(tot[ibar+2]/1000-305)/5.;

@@ -305,7 +305,7 @@ class GuiWindow(Gtk.Window):
         self.processWindow.set_title("%s (running)" % runCommand)
 
         if (self.startDelay.get_active()):
-            time.sleep(25*60) #wait 25minutes to thermalize
+            time.sleep(15*60) #wait 15minutes to thermalize (changed by Francesco on 24 nov 2022)
 
 #        runCommand="ping -c %d localhost"%int(self.array1_entry.get_text())
         os.environ["PYTHONUNBUFFERED"] = "1"

@@ -1,7 +1,8 @@
 import ROOT as R
 
 #ref_arrays=[405,406,407,408]
-ref_arrays=[405,414,407,408] #ref. arrays after 05/2022
+#ref_arrays=[405,414,407,408] #ref. arrays after 05/2022
+ref_arrays=[405,407,408,413] #ref. arrays for single array bench
 
 c=R.TFile('data/stability.root')
 ff=R.TFile('data/intercalib.root','UPDATE')

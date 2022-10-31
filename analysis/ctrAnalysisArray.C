@@ -55,7 +55,7 @@ void ctrAnalysisArray::getBarEnergy(int ibar,float& energy1, float& energy2)
   // float pedTime1=0;
   
   //  energy1 = (energy[ibar+2]-ped1-pedTime1)*(1 + (barTemp-4)*0.018); //temp calibration to be optimised
-  float calibBar= ((calibMap[i_array] != NULL) && applyCalib) ? calibMap[i_array]->GetBinContent(ibar+1) : 1.;
+  float calibBar= ((calibMap[i_array] != NULL) && applyCalib && calibMap[i_array]->GetBinContent(ibar+1)>0) ? calibMap[i_array]->GetBinContent(ibar+1) : 1.;
    
   energy1 = energy[ibar+2]>-9 ? (energy[ibar+2]-ped1-pedTime1)*calibBar : 0.;
   float ped2=pedValue->GetBinContent(channels[ibar+2+N_BARS]*4+tacID[ibar+2+N_BARS]+1)+pedSlope->GetBinContent(channels[ibar+2+N_BARS]*4+tacID[ibar+2+N_BARS]+1)*(tot[ibar+2+N_BARS]/1000-305)/5.;
