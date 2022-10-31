@@ -217,6 +217,8 @@ gStyle.SetOptStat(1111);
 c3_XT.SetGrid();
 histos['XT_vs_bar'].GetXaxis().SetTitle("BAR ID")
 histos['XT_vs_bar'].GetYaxis().SetTitle("XT")
+histos['XT_vs_bar'].GetYaxis().SetRangeUser(histos['h1_XT_bar'].GetMean()-3*histos['h1_XT_bar'].GetRMS()
+                                            ,histos['h1_XT_bar'].GetMean()+3*histos['h1_XT_bar'].GetRMS())
 histos['XT_vs_bar'].SetLineColor( 2 )
 histos['XT_vs_bar'].SetMarkerColor( 1 )
 histos['XT_vs_bar'].SetMarkerStyle( 21 )

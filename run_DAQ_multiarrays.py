@@ -162,7 +162,7 @@ nch = len(channelList.split("_"))
 #energyThrValue = 20
 #energyThrList = '_'.join([str(energyThrValue)] * nch)
 #avoid many data from bar0
-energyThrList = "20_20_15_15_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6"
+energyThrList = "20_20_50_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_50_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6"
 #energyThrList = "20_20_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6_6"
 #
 #t1ThrValue = 35
