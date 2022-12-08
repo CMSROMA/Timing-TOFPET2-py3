@@ -144,6 +144,8 @@ class GuiWindow(Gtk.Window):
         self.mainBox.attach(self.buttonStop, 0, 6, 1, 1)
 
         self.timeout_id = None
+        self.io_stdout_id = None
+        self.io_stderr_id = None
         self.connect("destroy", self.on_SpinnerWindow_destroy)
 
     def array_combo_changed (self, combo):
@@ -193,7 +195,7 @@ class GuiWindow(Gtk.Window):
 
     def populate_tag_list(self):
         self.tag_list.append(['REFDAILY'])
-        self.tag_list.append(['PREIRR'])
+        self.tag_list.append(['PREIRR-GR'])
         self.tag_list.append(['TEST'])
 
     def populate_array_list(self):
@@ -302,12 +304,12 @@ class GuiWindow(Gtk.Window):
         if (self.thscan.get_active()):
             runCommand+=' -s'
 
+#        runCommand="ping -c %d localhost"%int(self.array1_entry.get_text())
         self.processWindow.set_title("%s (running)" % runCommand)
 
         if (self.startDelay.get_active()):
-            time.sleep(15*60) #wait 15minutes to thermalize (changed by Francesco on 24 nov 2022)
+            runCommand='echo "Wait 15min to thermalize"; sleep 900; '+runCommand
 
-#        runCommand="ping -c %d localhost"%int(self.array1_entry.get_text())
         os.environ["PYTHONUNBUFFERED"] = "1"
         runCommand="stdbuf -oL "+runCommand
         self.sub_proc = subprocess.Popen(runCommand, stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True,bufsize=0,preexec_fn=os.setsid)
@@ -318,11 +320,11 @@ class GuiWindow(Gtk.Window):
         flags = fcntl(self.sub_proc.stderr, F_GETFL) # get current p.stdout flags
         fcntl(self.sub_proc.stderr, F_SETFL, flags | O_NONBLOCK)
 
-        GLib.io_add_watch(self.sub_proc.stdout, # file descriptor
+        self.io_stdout_id=GLib.io_add_watch(self.sub_proc.stdout, # file descriptor
                           GLib.IO_IN,  # condition
                           self.non_block_read ) # callback
         
-        GLib.io_add_watch(self.sub_proc.stderr, # file descriptor
+        self.io_stderr_id=GLib.io_add_watch(self.sub_proc.stderr, # file descriptor
                           GLib.IO_IN,  # condition
                           self.non_block_read ) # callback
 
@@ -335,11 +337,13 @@ class GuiWindow(Gtk.Window):
         """ Stop the timer. """
         if self.sub_proc is not None:
             print("Killing process %d"%os.getpgid(self.sub_proc.pid))
-            os.killpg(os.getpgid(self.sub_proc.pid), signal.SIGINT)
+            os.killpg(os.getpgid(self.sub_proc.pid), signal.SIGKILL)
             self.sub_proc=None
         if self.timeout_id:
             GLib.source_remove(self.timeout_id)
             self.timeout_id = None
+        GLib.source_remove(self.io_stdout_id)
+        GLib.source_remove(self.io_stderr_id)
         self.spinner.stop()
         self.buttonStart.set_sensitive(True)
         self.buttonStop.set_sensitive(False)
@@ -379,6 +383,7 @@ class GuiWindow(Gtk.Window):
             GLib.source_remove(self.timeout_id)
             self.timeout_id = None
         self.label.set_label("")
+        return True
 
         
 win = GuiWindow()
