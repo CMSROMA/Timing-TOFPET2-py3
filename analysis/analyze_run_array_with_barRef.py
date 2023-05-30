@@ -279,6 +279,8 @@ def fitSpectrum_coinc(histo,function,xmin,xmax,canvas,fitres,label,code,barId,ru
     posPeak.sort()
 
     if(len(posPeak)==0):
+        fitres[(label,"peak1","norm","value")]=-999
+        fitres[(label,"peak1","norm","sigma")]=-999
         fitres[(label,"peak1","mean","value")]=-999
         fitres[(label,"peak1","mean","sigma")]=-999
         fitres[(label,"peak1","sigma","value")]=-999
@@ -319,11 +321,15 @@ def fitSpectrum_coinc(histo,function,xmin,xmax,canvas,fitres,label,code,barId,ru
     if goodChi2:
         print(function.GetChisquare(), function.GetNDF(), function.GetChisquare()/function.GetNDF())
 
+        fitres[(label,"peak1","norm","value")]=function.GetParameter(0)*function.GetParameter(6)
+        fitres[(label,"peak1","norm","sigma")]=TMath.Sqrt((function.GetParError(0)*function.GetParameter(6))**2+(function.GetParError(6)*function.GetParameter(0))**2)
         fitres[(label,"peak1","mean","value")]=function.GetParameter(7)
         fitres[(label,"peak1","mean","sigma")]=function.GetParError(7)
         fitres[(label,"peak1","sigma","value")]=function.GetParameter(8)
         fitres[(label,"peak1","sigma","sigma")]=function.GetParError(8)
     else:
+        fitres[(label,"peak1","norm","value")]=-999
+        fitres[(label,"peak1","norm","sigma")]=-999
         fitres[(label,"peak1","mean","value")]=-999
         fitres[(label,"peak1","mean","sigma")]=-999
         fitres[(label,"peak1","sigma","value")]=-999
@@ -758,6 +764,12 @@ for barId in range(0,16):
         print("Bad fit...")
         dead_channels.append(barId)
     histos['h1_energyTot_bar_coinc%d'%barId].Write()
+    for sipm in [1,2]:
+        fitSpectrum_coinc(histos['h1_energy%d_bar_coinc%d'%(sipm,barId)],fTot_bar_coinc,minEnergy_coinc,maxEnergy_coinc,c1_energy,fitResults,'barCoinc%d_sipm%d'%(barId,sipm),opt.arrayCode,barId,opt.run,opt.outputDir)
+#        if fitResults[('barCoinc%d_sipm%d'%barId,"peak1","mean","value")]==-999:
+#            print("Bad fit...")
+#            dead_channels.append(barId)
+        histos['h1_energy%d_bar_coinc%d'%(sipm,barId)].Write()
 
 tfileoutput.Close()
 
@@ -995,10 +1007,22 @@ err_peak1_mean_ref = array( 'd', [ -999. ] )
 peak1_sigma_ref = array( 'd', [ -999. ] )
 err_peak1_sigma_ref = array( 'd', [ -999. ] )
 #
+peak1_norm_barCoinc = array( 'd', [ -999. ]*16 )
+err_peak1_norm_barCoinc = array( 'd', [ -999. ]*16 )
 peak1_mean_barCoinc = array( 'd', [ -999. ]*16 )
 err_peak1_mean_barCoinc = array( 'd', [ -999. ]*16 )
 peak1_sigma_barCoinc = array( 'd', [ -999. ]*16 )
 err_peak1_sigma_barCoinc = array( 'd', [ -999. ]*16 )
+#
+peak1_sipm1_mean_barCoinc = array( 'd', [ -999. ]*16 )
+err_peak1_sipm1_mean_barCoinc = array( 'd', [ -999. ]*16 )
+peak1_sipm1_sigma_barCoinc = array( 'd', [ -999. ]*16 )
+err_peak1_sipm1_sigma_barCoinc = array( 'd', [ -999. ]*16 )
+#
+peak1_sipm2_mean_barCoinc = array( 'd', [ -999. ]*16 )
+err_peak1_sipm2_mean_barCoinc = array( 'd', [ -999. ]*16 )
+peak1_sipm2_sigma_barCoinc = array( 'd', [ -999. ]*16 )
+err_peak1_sipm2_sigma_barCoinc = array( 'd', [ -999. ]*16 )
 #
 deltaT12_mean_barCoinc = array( 'd', [ -999. ]*16 )
 err_deltaT12_mean_barCoinc = array( 'd', [ -999. ]*16 )
@@ -1035,10 +1059,22 @@ treeOutput.Branch( 'err_peak1_mean_ref', err_peak1_mean_ref, 'err_peak1_mean_ref
 treeOutput.Branch( 'peak1_sigma_ref', peak1_sigma_ref, 'peak1_sigma_ref/D' )
 treeOutput.Branch( 'err_peak1_sigma_ref', err_peak1_sigma_ref, 'err_peak1_sigma_ref/D' )
 #
+treeOutput.Branch( 'peak1_norm_barCoinc', peak1_norm_barCoinc, 'peak1_norm_barCoinc[16]/D' )
+treeOutput.Branch( 'err_peak1_norm_barCoinc', err_peak1_norm_barCoinc, 'err_peak1_norm_barCoinc[16]/D' )
 treeOutput.Branch( 'peak1_mean_barCoinc', peak1_mean_barCoinc, 'peak1_mean_barCoinc[16]/D' )
 treeOutput.Branch( 'err_peak1_mean_barCoinc', err_peak1_mean_barCoinc, 'err_peak1_mean_barCoinc[16]/D' )
 treeOutput.Branch( 'peak1_sigma_barCoinc', peak1_sigma_barCoinc, 'peak1_sigma_barCoinc[16]/D' )
 treeOutput.Branch( 'err_peak1_sigma_barCoinc', err_peak1_sigma_barCoinc, 'err_peak1_sigma_barCoinc[16]/D' )
+#
+treeOutput.Branch( 'peak1_sipm1_mean_barCoinc', peak1_sipm1_mean_barCoinc, 'peak1_sipm1_mean_barCoinc[16]/D' )
+treeOutput.Branch( 'err_peak1_sipm1_mean_barCoinc', err_peak1_sipm1_mean_barCoinc, 'err_peak1_sipm1_mean_barCoinc[16]/D' )
+treeOutput.Branch( 'peak1_sipm1_sigma_barCoinc', peak1_sipm1_sigma_barCoinc, 'peak1_sipm1_sigma_barCoinc[16]/D' )
+treeOutput.Branch( 'err_peak1_sipm1_sigma_barCoinc', err_peak1_sipm1_sigma_barCoinc, 'err_peak1_sipm1_sigma_barCoinc[16]/D' )
+#
+treeOutput.Branch( 'peak1_sipm2_mean_barCoinc', peak1_sipm2_mean_barCoinc, 'peak1_sipm2_mean_barCoinc[16]/D' )
+treeOutput.Branch( 'err_peak1_sipm2_mean_barCoinc', err_peak1_sipm2_mean_barCoinc, 'err_peak1_sipm2_mean_barCoinc[16]/D' )
+treeOutput.Branch( 'peak1_sipm2_sigma_barCoinc', peak1_sipm2_sigma_barCoinc, 'peak1_sipm2_sigma_barCoinc[16]/D' )
+treeOutput.Branch( 'err_peak1_sipm2_sigma_barCoinc', err_peak1_sipm2_sigma_barCoinc, 'err_peak1_sipm2_sigma_barCoinc[16]/D' )
 #
 treeOutput.Branch( 'deltaT12_mean_barCoinc', deltaT12_mean_barCoinc, 'deltaT12_mean_barCoinc[16]/D' )
 treeOutput.Branch( 'err_deltaT12_mean_barCoinc', err_deltaT12_mean_barCoinc, 'err_deltaT12_mean_barCoinc[16]/D' )
@@ -1085,10 +1121,22 @@ for barId in range(0,16):
         continue
 
     print("barId%d -- Store LO in root tree:"%barId)
+    peak1_norm_barCoinc[barId] = fitResults[('barCoinc%d'%barId,"peak1","norm","value")]
+    err_peak1_norm_barCoinc[barId] = fitResults[('barCoinc%d'%barId,"peak1","norm","sigma")]
     peak1_mean_barCoinc[barId] = fitResults[('barCoinc%d'%barId,"peak1","mean","value")]
     err_peak1_mean_barCoinc[barId] = fitResults[('barCoinc%d'%barId,"peak1","mean","sigma")]
     peak1_sigma_barCoinc[barId] = fitResults[('barCoinc%d'%barId,"peak1","sigma","value")]
     err_peak1_sigma_barCoinc[barId] = fitResults[('barCoinc%d'%barId,"peak1","sigma","sigma")]
+
+    peak1_sipm1_mean_barCoinc[barId] = fitResults[('barCoinc%d_sipm1'%barId,"peak1","mean","value")]
+    err_peak1_sipm1_mean_barCoinc[barId] = fitResults[('barCoinc%d_sipm1'%barId,"peak1","mean","sigma")]
+    peak1_sipm1_sigma_barCoinc[barId] = fitResults[('barCoinc%d_sipm1'%barId,"peak1","sigma","value")]
+    err_peak1_sipm1_sigma_barCoinc[barId] = fitResults[('barCoinc%d_sipm1'%barId,"peak1","sigma","sigma")]
+
+    peak1_sipm2_mean_barCoinc[barId] = fitResults[('barCoinc%d_sipm2'%barId,"peak1","mean","value")]
+    err_peak1_sipm2_mean_barCoinc[barId] = fitResults[('barCoinc%d_sipm2'%barId,"peak1","mean","sigma")]
+    peak1_sipm2_sigma_barCoinc[barId] = fitResults[('barCoinc%d_sipm2'%barId,"peak1","sigma","value")]
+    err_peak1_sipm2_sigma_barCoinc[barId] = fitResults[('barCoinc%d_sipm2'%barId,"peak1","sigma","sigma")]
 
     ## Time resolution
     if ( barId in lowStat_channels ) :

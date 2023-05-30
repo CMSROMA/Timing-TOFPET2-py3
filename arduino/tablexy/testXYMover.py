@@ -17,10 +17,10 @@ print (aMover.estimatedPosition())
 print (aMover1.moveAbsoluteXY(24,24))
 print (aMover1.estimatedPosition())
 #position after end of run
-#print (aMover.moveAbsoluteXY(20,48))
-#print (aMover.estimatedPosition())
-#print (aMover1.moveAbsoluteXY(24,1))
-#print (aMover1.estimatedPosition())
+print (aMover.moveAbsoluteXY(20,48))
+print (aMover.estimatedPosition())
+print (aMover1.moveAbsoluteXY(24,1))
+print (aMover1.estimatedPosition())
 #
 print ("++++ Done +++++")
 

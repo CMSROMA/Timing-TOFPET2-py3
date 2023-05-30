@@ -65,13 +65,13 @@ lscan_step=4 #4mm step
 
 for step in range(0,nFilesInScan):
     tfileResults[pos[step]] = TFile.Open(opt.inputDir+"/tree_Run%s_ARRAY%s.root"%(str(int(opt.firstRun)+step*3).zfill(6),opt.arrayCode.zfill(6)))
-    print opt.inputDir+"/tree_Run%s_ARRAY%s.root" % (str(int(opt.firstRun)+step*3).zfill(6),opt.arrayCode.zfill(6))
+    print(opt.inputDir+"/tree_Run%s_ARRAY%s.root" % (str(int(opt.firstRun)+step*3).zfill(6),opt.arrayCode.zfill(6)))
     treeResults[pos[step]] = tfileResults[pos[step]].Get("results")
 
     treeResults[pos[step]].GetEntry(0)
 
-    print TMath.Mean(16,treeResults[pos[step]].peak1_mean_barCoinc)
-    print TMath.Mean(16,treeResults[pos[step]].deltaT12_sigma_barCoinc)/2.
+    print(TMath.Mean(16,treeResults[pos[step]].peak1_mean_barCoinc))
+    print(TMath.Mean(16,treeResults[pos[step]].deltaT12_sigma_barCoinc)/2.)
 
     histos['LY_vs_pos'].SetPoint(step,pos[step]*lscan_step,TMath.Mean(16,treeResults[pos[step]].peak1_mean_barCoinc))
     histos['LY_vs_pos'].SetPointError(step,0.5,TMath.RMS(16,treeResults[pos[step]].peak1_mean_barCoinc))
@@ -106,17 +106,23 @@ for hh in ['LY','sigmaT','CTR','XT']:
     histos['%s_vs_pos'%hh].SetMarkerStyle( 21 )
     histos['%s_vs_pos'%hh].Draw("APE")
     if (hh=='LY'):
-        histos['%s_vs_pos'%hh].GetYaxis().SetLimits(70,140)
-        histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(70,140)
+        # histos['%s_vs_pos'%hh].GetYaxis().SetLimits(70,140)
+        # histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(70,140)
+        histos['%s_vs_pos'%hh].GetYaxis().SetLimits(30,70)
+        histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(30,70)
     elif (hh=='sigmaT'):
         histos['%s_vs_pos'%hh].GetYaxis().SetLimits(70,110)
         histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(70,110)
     elif (hh=='CTR'):
-        histos['%s_vs_pos'%hh].GetYaxis().SetLimits(140,220)
-        histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(140,220)
+        # histos['%s_vs_pos'%hh].GetYaxis().SetLimits(140,220)
+        # histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(140,220)
+        histos['%s_vs_pos'%hh].GetYaxis().SetLimits(30,70)
+        histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(30,70)
     elif (hh=='XT'):
-        histos['%s_vs_pos'%hh].GetYaxis().SetLimits(0.,0.5)
-        histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(0.,0.5)
+        # histos['%s_vs_pos'%hh].GetYaxis().SetLimits(0.,0.5)
+        # histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(0.,0.5)
+        histos['%s_vs_pos'%hh].GetYaxis().SetLimits(0.,0.25)
+        histos['%s_vs_pos'%hh].GetYaxis().SetRangeUser(0.,0.25)
 
     c1_LY.SaveAs(mergedLabel+"_"+"LSCAN_SUMMARY_%s.png"%hh)
 

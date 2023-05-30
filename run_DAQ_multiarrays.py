@@ -119,6 +119,10 @@ def RUN(configArray,runtype,time,ov,ovref,gate,label,enabledCh,thresholds,thresh
     print (commandRun)
 
 ### with Airtable
+##############################
+### TAGS are split by '_'
+##############################
+
     tags=newlabel.split('_')
     print(tags)
     posX=float(tags[5].replace('X',''))
